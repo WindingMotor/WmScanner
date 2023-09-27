@@ -35,12 +35,12 @@ class App(customtkinter.CTk):
         sidebar_button_2 = customtkinter.CTkButton(sidebar_frame, command=self.sidebar_button_event, text="Disable")
         sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
 
-        manual_input = customtkinter.CTkButton(sidebar_frame, command=self.manual_input, text="Manual Input")
+        manual_input = customtkinter.CTkButton(sidebar_frame, command=self.manual_input, text="Manual Attendance")
         manual_input.grid(row=3, column=0, padx=20, pady=(10, 10))
 
         # appearance text
-       # appearance_text = customtkinter.CTkLabel(sidebar_frame, text="Appearance Mode:", anchor="w") 
-        #appearance_text.grid(row=5, column=0, padx=20, pady=(10, 0)) 
+        appearance_text = customtkinter.CTkLabel(sidebar_frame, text="Appearance Mode:", anchor="w") 
+        appearance_text.grid(row=5, column=0, padx=20, pady=(10, 0)) 
 
         # appearance selector
         appearance_select = customtkinter.CTkOptionMenu(sidebar_frame, values=["Light", "Dark", "System"], command=self.appearance_select) 
@@ -67,25 +67,24 @@ class App(customtkinter.CTk):
         self.console.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
 
         # create tabview
-        tabview = customtkinter.CTkTabview(self, width=250)
-        tabview.grid(row=0, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        tabview.add("CTkTabview")
-        tabview.add("Tab 2")
-        tabview.add("Tab 3")
-        tabview.tab("CTkTabview").grid_columnconfigure(0, weight=1)
-        tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
+        #tabview = customtkinter.CTkTabview(self, width=250)
+        #tabview.grid(row=0, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
+        #tabview.add("Tab 1")
+        #tabview.add("Tab 2")
+        #tabview.add("Tab 3")
+        #tabview.tab("Tab 1").grid_columnconfigure(0, weight=1)
+        #tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
 
-        optionmenu_1 = customtkinter.CTkOptionMenu(tabview.tab("CTkTabview"), dynamic_resizing=False,
-                                                  values=["Value 1", "Value 2", "Value Long Long Long"])
-        optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
-        combobox_1 = customtkinter.CTkComboBox(tabview.tab("CTkTabview"),
-                                              values=["Value 1", "Value 2", "Value Long....."])
-        combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
+        #optionmenu_1 = customtkinter.CTkOptionMenu(tabview.tab("Tab 1"), dynamic_resizing=False, values=["Value 1", "Value 2", "Value Long Long Long"])
+        #optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
 
-        label_tab_2 = customtkinter.CTkLabel(tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
-        label_tab_2.grid(row=0, column=0, padx=20, pady=20)
+        #combobox_1 = customtkinter.CTkComboBox(tabview.tab("Tab 1"), values=["Value 1", "Value 2", "Value Long....."])
+        #combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
 
-        # create radiobutton frame
+        #label_tab_2 = customtkinter.CTkLabel(tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
+        #label_tab_2.grid(row=0, column=0, padx=20, pady=20)
+
+
         radiobutton_frame = customtkinter.CTkFrame(self)
         radiobutton_frame.grid(row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
         radio_var = tkinter.IntVar(value=0)
@@ -152,8 +151,9 @@ class App(customtkinter.CTk):
         appearance_select.set("Dark")  # MAKE DARK
         scaling_select.set("100%")  # SET SCALE TO 100
 
-        optionmenu_1.set("CTkOptionmenu")
-        combobox_1.set("CTkComboBox")
+        #optionmenu_1.set("Tab 2")
+        #combobox_1.set("CTkComboBox")
+
        # slider_1.configure(command=progressbar_2.set)
         #slider_2.configure(command=progressbar_3.set)
         #progressbar_1.configure(mode="indeterminnate")
@@ -166,7 +166,7 @@ class App(customtkinter.CTk):
     
     cameraPort = 2
 
-    cameraWidth, cameraHeight = 720, 720
+    cameraWidth, cameraHeight = 712, 512
   
     def open_camera(self):
         try:
@@ -183,9 +183,11 @@ class App(customtkinter.CTk):
                 ret, frame = cap.read()
                 if ret:
                     # Resize the frame to your desired dimensions (e.g., 400x400)
-                    frame = cv2.resize(frame, (400, 400))
+                    frame = cv2.resize(frame, (self.cameraWidth, self.cameraHeight))
 
                     # Convert the OpenCV frame to a PhotoImage
+                    #gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    
                     image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     image = Image.fromarray(image)
                     photo_image = ImageTk.PhotoImage(image=image)
